@@ -1,1 +1,2 @@
 1. Added readme
+2. Changed syntax

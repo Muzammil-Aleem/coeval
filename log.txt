@@ -3,3 +3,4 @@
 3. Fixed bug
 4. Updated documentation
 5. Refactored code structure
+6. Fixed typo in index

@@ -8,3 +8,4 @@
 8. Changed configuration settings
 9. Updated dependency versions
 10. Fixed minor security patch
+11. Added readme updates

@@ -9,3 +9,4 @@
 9. Updated dependency versions
 10. Fixed minor security patch
 11. Added readme updates
+12. Changed syntax rules

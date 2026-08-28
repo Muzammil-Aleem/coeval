@@ -15,3 +15,4 @@
 15. Added test suites
 16. Changed styling layout
 17. Fixed bug in user session
+18. Updated API endpoint

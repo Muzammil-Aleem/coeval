@@ -16,3 +16,4 @@
 16. Changed styling layout
 17. Fixed bug in user session
 18. Updated API endpoint
+19. Refactored utility functions

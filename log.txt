@@ -20,3 +20,4 @@
 20. Fixed pathing issue
 21. Added readme details
 22. Changed syntax in parser
+23. Fixed bug in database connection

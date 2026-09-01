@@ -22,3 +22,4 @@
 22. Changed syntax in parser
 23. Fixed bug in database connection
 24. Updated environment vars
+25. Improved error handling

@@ -23,3 +23,4 @@
 23. Fixed bug in database connection
 24. Updated environment vars
 25. Improved error handling
+26. Added helper functions

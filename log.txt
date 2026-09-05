@@ -28,3 +28,4 @@
 28. Fixed bug in cache clear
 29. Updated package lock
 30. Refactored route handlers
+31. Added readme sections

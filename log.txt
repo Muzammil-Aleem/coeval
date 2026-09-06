@@ -29,3 +29,4 @@
 29. Updated package lock
 30. Refactored route handlers
 31. Added readme sections
+32. Changed syntax for ES6

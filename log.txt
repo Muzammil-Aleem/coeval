@@ -34,3 +34,4 @@
 34. Updated build script
 35. Optimized bundle size
 36. Added logging module
+37. Changed validation rules

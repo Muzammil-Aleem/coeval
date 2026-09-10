@@ -36,3 +36,4 @@
 36. Added logging module
 37. Changed validation rules
 38. Fixed bug in file upload
+39. Updated gitignore file

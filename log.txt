@@ -44,3 +44,4 @@
 44. Updated deployment settings
 45. Improved type definitions
 46. Added integration tests
+47. Changed default parameters

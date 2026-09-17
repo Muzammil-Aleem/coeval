@@ -48,3 +48,4 @@
 48. Fixed bug in memory leak
 49. Updated core modules
 50. Finalized setup and build
+51. Configured authentication middleware

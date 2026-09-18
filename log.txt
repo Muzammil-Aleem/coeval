@@ -50,3 +50,4 @@
 50. Finalized setup and build
 51. Configured authentication middleware
 52. Refactored database query performance
+53. Added password hashing logic

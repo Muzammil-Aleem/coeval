@@ -58,3 +58,4 @@
 58. Fixed broken image pathing in views
 59. Added Docker container configuration
 60. Updated environment security keys
+61. Implemented JWT token refresh strategy

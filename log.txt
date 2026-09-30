@@ -69,3 +69,4 @@
 69. Refactored session storage handler
 70. Fixed CSS grid layout breaking on mobile
 71. Added search filter indexing
+72. Updated logging level configurations

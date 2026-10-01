@@ -72,3 +72,4 @@
 72. Updated logging level configurations
 73. Fixed microservice health check endpoint
 74. Added dynamic theme switching support
+75. Refactored static file serving strategy

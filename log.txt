@@ -74,3 +74,4 @@
 74. Added dynamic theme switching support
 75. Refactored static file serving strategy
 76. Fixed token expiration handling
+77. Added integration test fixtures

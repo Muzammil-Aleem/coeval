@@ -76,3 +76,4 @@
 76. Fixed token expiration handling
 77. Added integration test fixtures
 78. Updated third-party API SDK dependencies
+79. Fixed memory footprint during export

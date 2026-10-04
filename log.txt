@@ -77,3 +77,4 @@
 77. Added integration test fixtures
 78. Updated third-party API SDK dependencies
 79. Fixed memory footprint during export
+80. Added automated database migration script

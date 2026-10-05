@@ -78,3 +78,4 @@
 78. Updated third-party API SDK dependencies
 79. Fixed memory footprint during export
 80. Added automated database migration script
+81. Refactored search autocomplete component

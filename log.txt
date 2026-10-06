@@ -80,3 +80,4 @@
 80. Added automated database migration script
 81. Refactored search autocomplete component
 82. Fixed broken redirection on 404
+83. Updated cache revalidation headers

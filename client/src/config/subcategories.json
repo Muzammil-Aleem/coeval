@@ -1,0 +1,35 @@
+{
+  "title": "Sub-categories",
+  "fields": [
+    [
+      "name",
+      "text",
+      true
+    ],
+    [
+      "slug",
+      "text",
+      false
+    ],
+    [
+      "description",
+      "textarea",
+      true
+    ],
+    [
+      "category",
+      "category",
+      true
+    ],
+    [
+      "published",
+      "checkbox",
+      false
+    ],
+    [
+      "sortOrder",
+      "number",
+      false
+    ]
+  ]
+}

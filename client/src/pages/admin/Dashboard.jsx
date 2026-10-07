@@ -1,0 +1,3 @@
+import {useApi} from '../../hooks/useApi.js';
+import State from '../../components/State.jsx';
+export default function Dashboard(){const r=useApi('/dashboard');return <section><p className="eyebrow">STUDIO OVERVIEW</p><h1>Your content, at a glance.</h1><State loading={r.loading} error={r.error}/><div className="stat-grid">{Object.entries(r.data?.data.counts||{}).map(([k,v])=><article key={k}><span>{k}</span><strong>{v}</strong></article>)}</div><h2>Recent inquiries</h2>{r.data?.data.recentInquiries.map(i=><article className="inquiry" key={i._id}><h3>{i.name}</h3><p>{i.email} · {i.status}</p><p>{i.message}</p></article>)}</section>;}

@@ -1,0 +1,1 @@
+export default function State({loading,error,empty}){if(loading)return <p role="status" className="state">Loading…</p>;if(error)return <p role="alert" className="error">{error}</p>;if(empty)return <p className="state">No results yet.</p>;return null;}

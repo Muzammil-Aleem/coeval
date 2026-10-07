@@ -1,0 +1,5 @@
+import {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {request} from '../../api/client.js';
+import {useAuth} from '../../context/AuthContext.jsx';
+export default function Account(){const [error,setError]=useState(''),{setAdmin}=useAuth(),navigate=useNavigate();async function save(e){e.preventDefault();try{await request('/auth/change-password',{method:'POST',body:Object.fromEntries(new FormData(e.currentTarget))});setAdmin(null);navigate('/login');}catch(err){setError(err.message);}}return <section><h1>Change password</h1><p>All your sessions will end after a password change.</p><form className="stack-form" onSubmit={save}><label>Current password<input type="password" name="currentPassword" required autoComplete="current-password"/></label><label>New password<input type="password" name="newPassword" required minLength={12} autoComplete="new-password"/></label><p>Use 12+ characters with uppercase, lowercase and a number.</p>{error&&<p className="error" role="alert">{error}</p>}<button>Change password</button></form></section>;}

@@ -1,0 +1,40 @@
+{
+  "title": "Testimonials",
+  "fields": [
+    [
+      "name",
+      "text",
+      true
+    ],
+    [
+      "slug",
+      "text",
+      false
+    ],
+    [
+      "description",
+      "textarea",
+      true
+    ],
+    [
+      "clientRole",
+      "text",
+      false
+    ],
+    [
+      "rating",
+      "number",
+      false
+    ],
+    [
+      "published",
+      "checkbox",
+      false
+    ],
+    [
+      "sortOrder",
+      "number",
+      false
+    ]
+  ]
+}

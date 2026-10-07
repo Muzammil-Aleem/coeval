@@ -1,0 +1,16 @@
+import {Router} from 'express';
+import {login,changePassword} from './auth.service.js';
+import {loginSchema,passwordSchema} from './auth.validation.js';
+import {Admin} from '../admin/admin.model.js';
+import {validate} from '../../middleware/validate.js';
+import {authenticate} from '../../middleware/auth.js';
+import {loginLimit} from '../../middleware/rateLimits.js';
+import {env} from '../../config/env.js';
+import {asyncHandler as wrap} from '../../utils/asyncHandler.js';
+import {audit} from '../audit/audit.service.js';
+const router=Router(),cookie={httpOnly:true,secure:env.NODE_ENV==='production',sameSite:'strict',path:'/api'};
+router.post('/login',loginLimit,validate(loginSchema),wrap(async(req,res)=>{const {admin,token}=await login(req.validated);res.cookie('coeval_session',token,{...cookie,maxAge:7200000});res.json({success:true,data:admin});}));
+router.get('/me',authenticate,(req,res)=>res.json({success:true,data:req.admin}));
+router.post('/logout',authenticate,wrap(async(req,res)=>{await Admin.findByIdAndUpdate(req.admin._id,{$inc:{tokenVersion:1}});res.clearCookie('coeval_session',cookie);res.status(204).end();}));
+router.post('/change-password',authenticate,validate(passwordSchema),wrap(async(req,res)=>{await changePassword(req.admin._id,req.validated);await audit(req,'password-change','Admin',req.admin._id);res.clearCookie('coeval_session',cookie);res.status(204).end();}));
+export default router;

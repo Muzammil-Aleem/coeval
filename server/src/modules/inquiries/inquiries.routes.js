@@ -1,0 +1,17 @@
+import {Router} from 'express';
+import {Inquiry} from './inquiries.model.js';
+import {inquirySchema,inquiryUpdate} from './inquiries.validation.js';
+import {authenticate,authorize} from '../../middleware/auth.js';
+import {validate} from '../../middleware/validate.js';
+import {inquiryLimit} from '../../middleware/rateLimits.js';
+import {asyncHandler as wrap} from '../../utils/asyncHandler.js';
+import {AppError} from '../../utils/AppError.js';
+import {pagination} from '../../utils/query.js';
+import {validId} from '../shared/resource.routes.js';
+const router=Router();
+router.post('/',inquiryLimit,validate(inquirySchema),wrap(async(req,res)=>{const data=await Inquiry.create(req.validated);res.status(201).json({success:true,data:{id:data._id,message:'Thank you. Our studio will review your brief.'}});}));
+router.use(authenticate,authorize('admin','superadmin'));
+router.get('/',wrap(async(req,res)=>{const {page,limit,skip}=pagination(req.query);const filter={};if(req.query.status){if(!['new','contacted','qualified','closed'].includes(req.query.status))throw new AppError(400,'Invalid status');filter.status=req.query.status;}const [data,total]=await Promise.all([Inquiry.find(filter).sort('-createdAt').skip(skip).limit(limit),Inquiry.countDocuments(filter)]);res.json({success:true,data,pagination:{page,limit,total,pages:Math.ceil(total/limit)}});}));
+router.patch('/:id',validId,validate(inquiryUpdate),wrap(async(req,res)=>{const data=await Inquiry.findByIdAndUpdate(req.params.id,req.validated,{new:true,runValidators:true});if(!data)throw new AppError(404,'Inquiry not found');res.json({success:true,data});}));
+router.delete('/:id',validId,wrap(async(req,res)=>{const data=await Inquiry.findByIdAndDelete(req.params.id);if(!data)throw new AppError(404,'Inquiry not found');res.status(204).end();}));
+export default router;

@@ -1,0 +1,4 @@
+import {useApi} from '../hooks/useApi.js';
+import {mediaUrl} from '../api/client.js';
+import State from '../components/State.jsx';
+export default function Studio(){const team=useApi('/team-members?limit=100'),site=useApi('/website-info'),quotes=useApi('/testimonials?limit=10');return <section className="section"><p className="eyebrow">THE STUDIO</p><h1>Many perspectives.<br/>One considered vision.</h1><p className="intro">{site.data?.data?.about}</p><State loading={team.loading} error={team.error}/><div className="team-grid">{team.data?.data.map(t=><article key={t._id}>{t.portrait?<img src={mediaUrl(t.portrait)} alt={t.name}/>:<div className="avatar">{t.name.split(' ').map(s=>s[0]).join('')}</div>}<h3>{t.name}</h3><p className="eyebrow">{t.jobTitle}</p><p>{t.description}</p></article>)}</div><div className="quotes">{quotes.data?.data.map(q=><blockquote key={q._id}><p>“{q.description}”</p><cite>{q.name} · {q.clientRole}</cite></blockquote>)}</div></section>;}

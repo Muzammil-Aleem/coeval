@@ -1,0 +1,35 @@
+{
+  "title": "Categories",
+  "fields": [
+    [
+      "name",
+      "text",
+      true
+    ],
+    [
+      "slug",
+      "text",
+      false
+    ],
+    [
+      "description",
+      "textarea",
+      true
+    ],
+    [
+      "icon",
+      "text",
+      false
+    ],
+    [
+      "published",
+      "checkbox",
+      false
+    ],
+    [
+      "sortOrder",
+      "number",
+      false
+    ]
+  ]
+}

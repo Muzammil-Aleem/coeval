@@ -1,0 +1,1 @@
+export default function Pagination({meta,onPage}){if(!meta||meta.pages<2)return null;return <div className="pagination"><button disabled={meta.page<=1} onClick={()=>onPage(meta.page-1)}>Previous</button><span>Page {meta.page} of {meta.pages}</span><button disabled={meta.page>=meta.pages} onClick={()=>onPage(meta.page+1)}>Next</button></div>;}

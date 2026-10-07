@@ -1,0 +1,50 @@
+{
+  "title": "Team members",
+  "fields": [
+    [
+      "name",
+      "text",
+      true
+    ],
+    [
+      "slug",
+      "text",
+      false
+    ],
+    [
+      "description",
+      "textarea",
+      true
+    ],
+    [
+      "jobTitle",
+      "text",
+      true
+    ],
+    [
+      "email",
+      "email",
+      false
+    ],
+    [
+      "portrait",
+      "media",
+      false
+    ],
+    [
+      "credentials",
+      "list",
+      false
+    ],
+    [
+      "published",
+      "checkbox",
+      false
+    ],
+    [
+      "sortOrder",
+      "number",
+      false
+    ]
+  ]
+}

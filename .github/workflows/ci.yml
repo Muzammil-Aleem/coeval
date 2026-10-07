@@ -1,0 +1,20 @@
+name: Verify
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:8
+        ports: ['27017:27017']
+    env:
+      TEST_MONGODB_URI: mongodb://127.0.0.1:27017/coeval_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npm test
+      - run: npm run test:integration
+      - run: npm run build

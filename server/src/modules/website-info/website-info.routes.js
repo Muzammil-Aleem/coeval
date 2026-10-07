@@ -1,0 +1,11 @@
+import {Router} from 'express';
+import {WebsiteInfo} from './website-info.model.js';
+import {websiteSchema} from './website-info.validation.js';
+import {authenticate,authorize} from '../../middleware/auth.js';
+import {validate} from '../../middleware/validate.js';
+import {asyncHandler as wrap} from '../../utils/asyncHandler.js';
+import {audit} from '../audit/audit.service.js';
+const router=Router();
+router.get('/',wrap(async(req,res)=>res.json({success:true,data:await WebsiteInfo.findOne({key:'main'}).lean()})));
+router.put('/',authenticate,authorize('admin','superadmin'),validate(websiteSchema),wrap(async(req,res)=>{const data=await WebsiteInfo.findOneAndUpdate({key:'main'},{$set:req.validated},{upsert:true,new:true,runValidators:true});await audit(req,'update','WebsiteInfo',data._id);res.json({success:true,data});}));
+export default router;

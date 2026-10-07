@@ -1,0 +1,3 @@
+import {z} from 'zod';
+const safeUrl=z.string().url().refine(s=>/^https?:\/\//.test(s)).or(z.literal(''));
+export const websiteSchema=z.object({companyName:z.string().min(1).max(180),tagline:z.string().max(300).optional(),about:z.string().max(10000).optional(),email:z.string().email().optional(),phone:z.string().max(50).optional(),address:z.string().max(500).optional(),heroTitle:z.string().max(180).optional(),heroDescription:z.string().max(1000).optional(),socialLinks:z.object({instagram:safeUrl.optional(),linkedin:safeUrl.optional()}).strict().optional(),seo:z.object({title:z.string().max(180).optional(),description:z.string().max(300).optional()}).strict().optional()}).strict();

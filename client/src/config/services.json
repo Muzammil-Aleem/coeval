@@ -1,0 +1,50 @@
+{
+  "title": "Services",
+  "fields": [
+    [
+      "name",
+      "text",
+      true
+    ],
+    [
+      "slug",
+      "text",
+      false
+    ],
+    [
+      "description",
+      "textarea",
+      true
+    ],
+    [
+      "summary",
+      "text",
+      false
+    ],
+    [
+      "duration",
+      "text",
+      false
+    ],
+    [
+      "deliverables",
+      "list",
+      false
+    ],
+    [
+      "cover",
+      "media",
+      false
+    ],
+    [
+      "published",
+      "checkbox",
+      false
+    ],
+    [
+      "sortOrder",
+      "number",
+      false
+    ]
+  ]
+}

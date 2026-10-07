@@ -1,0 +1,2 @@
+import mongoose from 'mongoose';
+export const Inquiry=mongoose.model('Inquiry',new mongoose.Schema({name:{type:String,required:true,maxlength:180},email:{type:String,required:true,maxlength:254},phone:{type:String,maxlength:50},service:{type:String,maxlength:180},message:{type:String,required:true,maxlength:5000},status:{type:String,enum:['new','contacted','qualified','closed'],default:'new'},internalNotes:{type:String,maxlength:5000}},{timestamps:true}));

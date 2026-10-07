@@ -1,0 +1,2504 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Coeval API",
+    "version": "1.0.0",
+    "description": "Resource schemas and endpoint inventory. API.md documents specialized request bodies and origin policy."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000/api/v1"
+    }
+  ],
+  "paths": {
+    "/products": {
+      "get": {
+        "summary": "List published products",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "newest",
+                "oldest",
+                "name",
+                "order",
+                "price",
+                "-price"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create products",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/products"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/products/manage": {
+      "get": {
+        "summary": "List all products, including drafts",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "newest",
+                "oldest",
+                "name",
+                "order",
+                "price",
+                "-price"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/products/manage/{id}": {
+      "get": {
+        "summary": "Get content including drafts",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Get published content",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update content (fields optional; at least one required)",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 180
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 10000
+                  },
+                  "category": {
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{24}$"
+                  },
+                  "subCategory": {
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{24}$"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "design",
+                      "service",
+                      "consultation"
+                    ]
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "currency": {
+                    "type": "string",
+                    "enum": [
+                      "USD",
+                      "EUR",
+                      "GBP"
+                    ]
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "areaSqm": {
+                    "type": "number"
+                  },
+                  "year": {
+                    "type": "number"
+                  },
+                  "cover": {
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{24}$"
+                  },
+                  "gallery": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "deliverables": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "featured": {
+                    "type": "boolean"
+                  },
+                  "published": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "sortOrder": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete unreferenced content",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "409": {
+            "description": "Referenced content"
+          }
+        }
+      }
+    },
+    "/categories": {
+      "get": {
+        "summary": "List published categories",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "newest",
+                "oldest",
+                "name",
+                "order",
+                "price",
+                "-price"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create categories",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/categories"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/categories/manage": {
+      "get": {
+        "summary": "List all categories, including drafts",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "newest",
+                "oldest",
+                "name",
+                "order",
+                "price",
+                "-price"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/categories/manage/{id}": {
+      "get": {
+        "summary": "Get content including drafts",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/categories/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Get published content",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update content (fields optional; at least one required)",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 180
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 10000
+                  },
+                  "icon": {
+                    "type": "string"
+                  },
+                  "published": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "sortOrder": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete unreferenced content",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "409": {
+            "description": "Referenced content"
+          }
+        }
+      }
+    },
+    "/subcategories": {
+      "get": {
+        "summary": "List published subcategories",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "newest",
+                "oldest",
+                "name",
+                "order",
+                "price",
+                "-price"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create subcategories",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/subcategories"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/subcategories/manage": {
+      "get": {
+        "summary": "List all subcategories, including drafts",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "newest",
+                "oldest",
+                "name",
+                "order",
+                "price",
+                "-price"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/subcategories/manage/{id}": {
+      "get": {
+        "summary": "Get content including drafts",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/subcategories/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Get published content",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update content (fields optional; at least one required)",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 180
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 10000
+                  },
+                  "category": {
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{24}$"
+                  },
+                  "published": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "sortOrder": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete unreferenced content",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "409": {
+            "description": "Referenced content"
+          }
+        }
+      }
+    },
+    "/team-members": {
+      "get": {
+        "summary": "List published team-members",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "newest",
+                "oldest",
+                "name",
+                "order",
+                "price",
+                "-price"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create team-members",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/team-members"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/team-members/manage": {
+      "get": {
+        "summary": "List all team-members, including drafts",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "newest",
+                "oldest",
+                "name",
+                "order",
+                "price",
+                "-price"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/team-members/manage/{id}": {
+      "get": {
+        "summary": "Get content including drafts",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/team-members/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Get published content",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update content (fields optional; at least one required)",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 180
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 10000
+                  },
+                  "jobTitle": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "portrait": {
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{24}$"
+                  },
+                  "credentials": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "published": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "sortOrder": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete unreferenced content",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "409": {
+            "description": "Referenced content"
+          }
+        }
+      }
+    },
+    "/services": {
+      "get": {
+        "summary": "List published services",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "newest",
+                "oldest",
+                "name",
+                "order",
+                "price",
+                "-price"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create services",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/services"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/services/manage": {
+      "get": {
+        "summary": "List all services, including drafts",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "newest",
+                "oldest",
+                "name",
+                "order",
+                "price",
+                "-price"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/services/manage/{id}": {
+      "get": {
+        "summary": "Get content including drafts",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/services/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Get published content",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update content (fields optional; at least one required)",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 180
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 10000
+                  },
+                  "summary": {
+                    "type": "string"
+                  },
+                  "duration": {
+                    "type": "string"
+                  },
+                  "deliverables": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "cover": {
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{24}$"
+                  },
+                  "published": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "sortOrder": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete unreferenced content",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "409": {
+            "description": "Referenced content"
+          }
+        }
+      }
+    },
+    "/testimonials": {
+      "get": {
+        "summary": "List published testimonials",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "newest",
+                "oldest",
+                "name",
+                "order",
+                "price",
+                "-price"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create testimonials",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/testimonials"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/testimonials/manage": {
+      "get": {
+        "summary": "List all testimonials, including drafts",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "newest",
+                "oldest",
+                "name",
+                "order",
+                "price",
+                "-price"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/testimonials/manage/{id}": {
+      "get": {
+        "summary": "Get content including drafts",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/testimonials/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Get published content",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update content (fields optional; at least one required)",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 180
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 10000
+                  },
+                  "clientRole": {
+                    "type": "string"
+                  },
+                  "rating": {
+                    "type": "number"
+                  },
+                  "published": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "sortOrder": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete unreferenced content",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "409": {
+            "description": "Referenced content"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "POST /auth/login (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "summary": "GET /auth/me (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "summary": "POST /auth/logout (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/change-password": {
+      "post": {
+        "summary": "POST /auth/change-password (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/website-info": {
+      "get": {
+        "summary": "GET /website-info (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      },
+      "put": {
+        "summary": "PUT /website-info (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/admin": {
+      "get": {
+        "summary": "GET /admin (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "POST /admin (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
+          }
+        }
+      ],
+      "patch": {
+        "summary": "PATCH /admin/{id} (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/media": {
+      "get": {
+        "summary": "GET /media (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "POST /media (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/media/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
+          }
+        }
+      ],
+      "patch": {
+        "summary": "PATCH /media/{id} (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "DELETE /media/{id} (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/media/{id}/file": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "GET /media/{id}/file (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/inquiries": {
+      "get": {
+        "summary": "GET /inquiries (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "POST /inquiries (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/inquiries/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
+          }
+        }
+      ],
+      "patch": {
+        "summary": "PATCH /inquiries/{id} (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "DELETE /inquiries/{id} (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/dashboard": {
+      "get": {
+        "summary": "GET /dashboard (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/audit": {
+      "get": {
+        "summary": "GET /audit (see API.md for bodies)",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "coeval_session"
+      }
+    },
+    "schemas": {
+      "products": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "description",
+          "category",
+          "type"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 180
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 10000
+          },
+          "category": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
+          },
+          "subCategory": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "design",
+              "service",
+              "consultation"
+            ]
+          },
+          "price": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP"
+            ]
+          },
+          "location": {
+            "type": "string"
+          },
+          "areaSqm": {
+            "type": "number"
+          },
+          "year": {
+            "type": "number"
+          },
+          "cover": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
+          },
+          "gallery": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverables": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "featured": {
+            "type": "boolean"
+          },
+          "published": {
+            "type": "boolean",
+            "default": false
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "categories": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "description"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 180
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 10000
+          },
+          "icon": {
+            "type": "string"
+          },
+          "published": {
+            "type": "boolean",
+            "default": false
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "subcategories": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "description",
+          "category"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 180
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 10000
+          },
+          "category": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
+          },
+          "published": {
+            "type": "boolean",
+            "default": false
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "team-members": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "description",
+          "jobTitle"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 180
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 10000
+          },
+          "jobTitle": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "portrait": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
+          },
+          "credentials": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "published": {
+            "type": "boolean",
+            "default": false
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "services": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "description"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 180
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 10000
+          },
+          "summary": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string"
+          },
+          "deliverables": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "cover": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
+          },
+          "published": {
+            "type": "boolean",
+            "default": false
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "testimonials": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "description"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 180
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 10000
+          },
+          "clientRole": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number"
+          },
+          "published": {
+            "type": "boolean",
+            "default": false
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createSchema,updateSchema} from '../../src/modules/products/products.validation.js';
+import {createAdmin} from '../../src/modules/admin/admin.validation.js';
+import {websiteSchema} from '../../src/modules/website-info/website-info.validation.js';
+import {slugify} from '../../src/utils/slug.js';
+const valid={name:'Courtyard House',description:'A considered residential design.',category:'a'.repeat(24),type:'design'};
+test('product accepts a complete brief and rejects mass assignment',()=>{assert.ok(createSchema.safeParse(valid).success);assert.equal(createSchema.safeParse({...valid,role:'superadmin'}).success,false);assert.equal(createSchema.safeParse({...valid,price:-1}).success,false);});
+test('empty patches are rejected',()=>assert.equal(updateSchema.safeParse({}).success,false));
+test('admin passwords require strength',()=>{assert.equal(createAdmin.safeParse({name:'Admin',email:'admin@example.com',password:'weak'}).success,false);});
+test('social URLs reject active scripting schemes',()=>assert.equal(websiteSchema.safeParse({companyName:'Coeval',socialLinks:{instagram:'javascript:alert(1)'}}).success,false));
+test('slugs remove unsafe punctuation',()=>assert.equal(slugify(' Café / Residence '),'cafe-residence'));

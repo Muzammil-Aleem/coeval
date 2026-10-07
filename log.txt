@@ -81,3 +81,4 @@
 81. Refactored search autocomplete component
 82. Fixed broken redirection on 404
 83. Updated cache revalidation headers
+84. Added internationalization translation files

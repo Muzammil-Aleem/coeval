@@ -82,3 +82,4 @@
 82. Fixed broken redirection on 404
 83. Updated cache revalidation headers
 84. Added internationalization translation files
+85. Refactored API route guard logic

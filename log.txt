@@ -83,3 +83,4 @@
 83. Updated cache revalidation headers
 84. Added internationalization translation files
 85. Refactored API route guard logic
+86. Fixed data mapping error in parser

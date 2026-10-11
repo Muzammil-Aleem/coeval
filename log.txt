@@ -88,3 +88,4 @@
 88. Updated build target to ESNext
 89. Fixed race condition on form submit
 90. Added file chunk upload handler
+91. Refactored data transformation utilities

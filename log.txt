@@ -90,3 +90,4 @@
 90. Added file chunk upload handler
 91. Refactored data transformation utilities
 92. Fixed missing field validation on signup
+93. Updated connection pool sizing

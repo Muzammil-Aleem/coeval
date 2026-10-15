@@ -6,3 +6,4 @@
 6. Fixed typo in index
 7. Added initial setup
 8. Changed configuration settings
+9. Updated dependency versions

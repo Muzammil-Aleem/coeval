@@ -11,3 +11,4 @@
 11. Added readme updates
 12. Changed syntax rules
 13. Fixed bug in auth module
+14. Optimized query logic

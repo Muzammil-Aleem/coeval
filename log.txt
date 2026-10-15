@@ -14,3 +14,4 @@
 14. Optimized query logic
 15. Added test suites
 16. Changed styling layout
+17. Fixed bug in user session

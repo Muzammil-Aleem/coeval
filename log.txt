@@ -10,3 +10,4 @@
 10. Fixed minor security patch
 11. Added readme updates
 12. Changed syntax rules
+13. Fixed bug in auth module

@@ -5,3 +5,4 @@
 5. Refactored code structure
 6. Fixed typo in index
 7. Added initial setup
+8. Changed configuration settings

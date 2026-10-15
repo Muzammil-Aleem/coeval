@@ -94,3 +94,4 @@
 94. Added real-time notification socket
 95. Refactored payment gateway handler
 96. Fixed memory leak in background worker
+97. Updated server compression settings

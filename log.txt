@@ -13,3 +13,4 @@
 13. Fixed bug in auth module
 14. Optimized query logic
 15. Added test suites
+16. Changed styling layout

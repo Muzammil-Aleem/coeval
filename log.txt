@@ -18,3 +18,4 @@
 18. Updated API endpoint
 19. Refactored utility functions
 20. Fixed pathing issue
+21. Added readme details

@@ -31,3 +31,4 @@
 31. Added readme sections
 32. Changed syntax for ES6
 33. Fixed bug in component load
+34. Updated build script

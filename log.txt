@@ -25,3 +25,4 @@
 25. Improved error handling
 26. Added helper functions
 27. Changed response format
+28. Fixed bug in cache clear

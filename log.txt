@@ -27,3 +27,4 @@
 27. Changed response format
 28. Fixed bug in cache clear
 29. Updated package lock
+30. Refactored route handlers

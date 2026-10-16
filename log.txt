@@ -33,3 +33,4 @@
 33. Fixed bug in component load
 34. Updated build script
 35. Optimized bundle size
+36. Added logging module

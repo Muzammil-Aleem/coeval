@@ -19,3 +19,4 @@
 19. Refactored utility functions
 20. Fixed pathing issue
 21. Added readme details
+22. Changed syntax in parser

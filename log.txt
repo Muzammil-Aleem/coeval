@@ -24,3 +24,4 @@
 24. Updated environment vars
 25. Improved error handling
 26. Added helper functions
+27. Changed response format

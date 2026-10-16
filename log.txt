@@ -96,3 +96,4 @@
 96. Fixed memory leak in background worker
 97. Updated server compression settings
 98. Added automated smoke test runner
+99. Refactored state reducer actions

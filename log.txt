@@ -41,3 +41,4 @@
 41. Added readme references
 42. Changed syntax structure
 43. Fixed bug in pagination
+44. Updated deployment settings

@@ -47,3 +47,4 @@
 47. Changed default parameters
 48. Fixed bug in memory leak
 49. Updated core modules
+50. Finalized setup and build

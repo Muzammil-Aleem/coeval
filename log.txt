@@ -39,3 +39,4 @@
 39. Updated gitignore file
 40. Refactored middleware
 41. Added readme references
+42. Changed syntax structure

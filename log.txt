@@ -46,3 +46,4 @@
 46. Added integration tests
 47. Changed default parameters
 48. Fixed bug in memory leak
+49. Updated core modules

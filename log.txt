@@ -40,3 +40,4 @@
 40. Refactored middleware
 41. Added readme references
 42. Changed syntax structure
+43. Fixed bug in pagination

@@ -42,3 +42,4 @@
 42. Changed syntax structure
 43. Fixed bug in pagination
 44. Updated deployment settings
+45. Improved type definitions
